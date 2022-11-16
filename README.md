@@ -26,3 +26,5 @@ pip install --editable ./
 
 ## Developers
 Mowgli is developed by [David Stap](https://davidstap.github.io) (University of Amsterdam).
+
+We take inspiration from other sequence-to-sequence frameworks such as [Tensor2Tensor](https://github.com/tensorflow/tensor2tensor), [fairseq](https://github.com/facebookresearch/fairseq), [OpenNMT](https://github.com/OpenNMT/OpenNMT-py) and [JoeyNMT](https://github.com/joeynmt/joeynmt).
