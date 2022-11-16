@@ -13,4 +13,4 @@ pip install --editable ./
 TODO: add info about how to use framework.
 
 ## Developers
-Mowgli is developed by [David Stap](https://davidstap.github.io) (University of Amsterdam)
+Mowgli is developed by [David Stap](https://davidstap.github.io) (University of Amsterdam).
