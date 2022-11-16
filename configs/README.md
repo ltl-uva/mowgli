@@ -7,10 +7,10 @@ Name | Optional | Default | Description
 --------- | :----------: | :-- | --:
 `src`|no|NA|List of source languages for training.
 `trg`|no|NA|List of target languages for training.
-`valid_src`|yes|Same as `src`|List of source languages for validation. Useful for validating on a subset of languages.
-`valid_trg`|yes|Same as `trg`|List of target languages for validation. Useful for validating on a subset of languages.
-`test_src`|yes|Same as `src`|List of source languages for testing. Useful for testing on a subset of languages.
-`test_trg`|yes|Same as `trg`|List of target languages for testing. Useful for testing on a subset of languages.
+`valid_src`|yes|`src`|List of source languages for validation. Useful for validating on a subset of languages.
+`valid_trg`|yes|`trg`|List of target languages for validation. Useful for validating on a subset of languages.
+`test_src`|yes|`src`|List of source languages for testing. Useful for testing on a subset of languages.
+`test_trg`|yes|`trg`|List of target languages for testing. Useful for testing on a subset of languages.
 `train_path`|no|NA|Path to training data folder plus prefix. For example, we can have two files: `data/train.en` and `data/train.de`. In this case `train_path` is `data/train`.
 `valid_path`|no|NA|Path to validation data folder plus prefix.
 `test_path`|no|NA|Path to test data folder plus prefix.
