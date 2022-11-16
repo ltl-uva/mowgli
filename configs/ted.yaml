@@ -1,0 +1,92 @@
+# Many 2 many English centric
+name: ted_shared_m2m_ec
+
+data:
+    # both source and target are all 60 TED languages
+    src: [ar,az,be,bg,bn, bs, cs, da, de, el, en, eo, es, et, eu, fa, fi, fr, fr-ca, gl, he, hi, hr, hu, hy, id, it, ja, ka, kk, ko, ku, lt, mk, mn, mr, ms, my, nb, nl, pl, pt, pt-br, ro, ru, sk, sl, sq, sr, sv, ta, th, tr, uk, ur, vi, zh, zh-cn, zh-tw]
+    trg: [ar,az,be,bg,bn, bs, cs, da, de, el, en, eo, es, et, eu, fa, fi, fr, fr-ca, gl, he, hi, hr, hu, hy, id, it, ja, ka, kk, ko, ku, lt, mk, mn, mr, ms, my, nb, nl, pl, pt, pt-br, ro, ru, sk, sl, sq, sr, sv, ta, th, tr, uk, ur, vi, zh, zh-cn, zh-tw]
+    centric: en
+    valid_src: [en, az, be, gl, sk, ar, de, he, it]
+    valid_trg: [en, az, be, gl, sk, ar, de, he, it]
+    test_src: [en, az, be, gl, sk, ar, de, he, it]
+    test_trg: [en, az, be, gl, sk, ar, de, he, it]
+    train_path: /ivi/ilps/personal/dstap1/data/ted_full_neulab/train/ted.tok.bpe_16000_shared
+    valid_path: /ivi/ilps/personal/dstap1/data/ted_full_neulab/validation/ted.tok.bpe_16000_shared
+    test_path: /ivi/ilps/personal/dstap1/data/ted_full_neulab/test/ted.tok.bpe_16000_shared
+    level: bpe
+    trg_voc_min_freq: 2
+    src_voc_min_freq: 2
+    trg_tag_enc: True
+    lowercase: False
+    max_sent_length: 120
+    share_vocab: True
+    reduce_size: None
+    vocab: /ivi/ilps/personal/dstap1/data/ted_full_neulab/vocab/bpe_16000
+
+testing:
+    beam_size: 4
+    alpha: 0.6
+
+training:
+    wandb_dryrun: False
+    batch_type: token
+    batch_size: 2048 # * 2 gpu -> 4096
+    batch_multiplier: 1
+    use_cuda: True
+    random_seed: 42
+    epochs: 10000
+    max_update_steps: 1000000
+    validation_freq: 10000
+    logging_freq: 50
+    overwrite: False
+    eval_batch_size: 2000
+    eval_batch_type: token
+    eval_metric: bleu
+    early_stopping_metric: eval_metric
+    patience: 5
+    print_valid_sents: [0, 1, 2]
+    normalization: tokens
+    keep_last_ckpts: 5
+    scheduling: noam
+    learning_rate_factor: 3
+    learning_rate_warmup: 40000
+    loss: crossentropy
+    label_smoothing: 0.1
+    model_dir: /ivi/ilps/personal/dstap1/models/ted_m2m_ec_bpe16k
+    shuffle: True
+    learning_rate: 0.0007
+    learning_rate_min: 0.00000000000001
+    weight_decay: 0.0
+    optimizer: adam
+    adam_betas: [0.9, 0.98]
+
+model:
+    initializer: xavier
+    bias_initializer: zeros
+    init_gain: 1.0
+    embed_initializer: xavier
+    embed_init_gain: 1.0
+    tied_embeddings: False
+    tied_softmax: False
+    encoder:
+        type: transformer
+        num_layers: 6
+        num_heads: 8
+        embeddings:
+            embedding_dim: 512
+            scale: True
+            dropout: 0.2
+        hidden_size: 512
+        ff_size: 2048
+        dropout: 0.2
+    decoder:
+        type: transformer
+        num_layers: 6
+        num_heads: 8
+        embeddings:
+            embedding_dim: 512
+            scale: True
+            dropout: 0.2
+        hidden_size: 512
+        ff_size: 2048
+        dropout: 0.2

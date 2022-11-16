@@ -1,0 +1,80 @@
+name: "base_wmt14_ende"
+
+data:
+    src: [en]
+    trg: [de]
+    train_path: /ivi/ilps/personal/dstap1/wmt14_mowgli/train/train.tok.bpe.37000
+    valid_path:   /ivi/ilps/personal/dstap1/wmt14_mowgli/valid/newstest2013.tok.bpe.37000
+    test_path:  /ivi/ilps/personal/dstap1/wmt14_mowgli/test/newstest2014.tok.bpe.37000
+    level: bpe
+    lowercase: False
+    max_sent_length: 100
+    share_vocab: True
+    reduce_size: None
+    # vocab: /ivi/ilps/personal/dstap1/wmt14_mowgli/vocab.txt
+
+testing:
+    beam_size: 4
+    alpha: 0.6
+
+training:
+    batch_type: "token"
+    batch_size: 3125
+    batch_multiplier: 2
+    use_cuda: True
+    random_seed: 42
+    epochs: 10000
+    validation_freq: 2400
+    logging_freq: 50
+    overwrite: False
+    eval_batch_size: 3600
+    eval_batch_type: "token"
+    eval_metric: "bleu"
+    early_stopping_metric: "ppl"
+    patience: 5
+    print_valid_sents: [0, 1, 2]
+    normalization: "tokens"
+    keep_last_ckpts: 5
+    scheduling: "noam"
+    learning_rate_factor: 1
+    learning_rate_warmup: 4000
+    loss: "crossentropy"
+    label_smoothing: 0.1
+    model_dir: /ivi/ilps/personal/dstap1/models/base_wmt14_ende
+    shuffle: True
+    learning_rate: 0.0007
+    learning_rate_min: 0.00000000000001
+    weight_decay: 0.0
+    optimizer: "adam"
+    adam_betas: [0.9, 0.98]
+
+model:
+    initializer: "xavier"
+    bias_initializer: "zeros"
+    init_gain: 1.0
+    embed_initializer: "xavier"
+    embed_init_gain: 1.0
+    tied_embeddings: True
+    tied_softmax: True
+    encoder:
+        type: "transformer"
+        num_layers: 6
+        num_heads: 8
+        embeddings:
+            embedding_dim: 512
+            scale: True
+            dropout: 0.
+        hidden_size: 512
+        ff_size: 2048
+        dropout: 0.1
+    decoder:
+        type: "transformer"
+        num_layers: 6
+        num_heads: 8
+        embeddings:
+            embedding_dim: 512
+            scale: True
+            dropout: 0.
+        hidden_size: 512
+        ff_size: 2048
+        dropout: 0.1

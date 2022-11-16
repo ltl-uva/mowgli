@@ -1,0 +1,76 @@
+name: opus100
+data:
+    src: [af, am, ar, as, az, be, bg, bn, bs, ca, cs, cy, da, de, el, en, et, fa, fi, fr, ga, gl, gu, ha, he, hi, hr, hu, hy, id, ig, is, it, ja, ka, kk, km, kn, ko, ku, ky, lt, lv, mk, ml, mn, mr, ms, mt, my, nb, ne, nl, oc, or, pl, ps, pt, ro, ru, sh, sk, sl, sr, sv, ta, te, tg, th, tr, uk, ur, uz, vi, xh, yo, zh, zu]
+    trg: [af, am, ar, as, az, be, bg, bn, bs, ca, cs, cy, da, de, el, en, et, fa, fi, fr, ga, gl, gu, ha, he, hi, hr, hu, hy, id, ig, is, it, ja, ka, kk, km, kn, ko, ku, ky, lt, lv, mk, ml, mn, mr, ms, mt, my, nb, ne, nl, oc, or, pl, ps, pt, ro, ru, sh, sk, sl, sr, sv, ta, te, tg, th, tr, uk, ur, uz, vi, xh, yo, zh, zu]
+    name: opus100 #TODO
+    train_path: /ivi/ilps/personal/dstap1/data/opus-100-corpus/v1.0/ #TODO
+    valid_path: /ivi/ilps/personal/dstap1/data/opus-100-corpus/v1.0/ #TODO
+    test_path: /ivi/ilps/personal/dstap1/data/opus-100-corpus/v1.0/ #TODO
+    centric: en
+    
+    # valid_src: [en, az, be, gl, sk, ar, de, he, it]
+    # valid_trg: [en, az, be, gl, sk, ar, de, he, it]
+    # test_src: [en, az, be, gl, sk, ar, de, he, it]
+    # test_trg: [en, az, be, gl, sk, ar, de, he, it]
+    
+    
+  
+    level: spm
+    trg_tag_enc: True
+    lowercase: False
+    max_sent_length: 120
+    share_vocab: True
+    reduce_size: None
+    # vocab: /ivi/ilps/personal/dstap1/data/opus-100-corpus/v1.0/vocab/fb_spm_minfreq2
+    vocab: /ivi/ilps/personal/dstap1/data/opus-100-corpus/v1.0/vocab/dummy
+
+    
+
+
+testing:
+    beam_size: 4
+    alpha: 0.6
+
+training:
+    wandb_dryrun: True
+    batch_type: token
+    batch_size: 3125
+    batch_multiplier: 2
+    use_cuda: True
+    random_seed: 42
+    epochs: 10000
+    max_update_steps: 1000000
+    validation_freq: 10000
+    logging_freq: 50
+    overwrite: True #TODO
+    eval_batch_size: 2000
+    eval_batch_type: token
+    eval_metric: bleu
+    early_stopping_metric: eval_metric
+    early_stopping_patience: 5
+    print_valid_sents: [0, 1, 2]
+    normalization: tokens
+    keep_last_ckpts: 5
+    scheduling: noam
+    learning_rate_factor: 3
+    learning_rate_warmup: 40000
+    loss: crossentropy
+    label_smoothing: 0.1
+    model_dir: /ivi/ilps/personal/dstap1/models/opus100
+    shuffle: True
+    learning_rate: 0.0007
+    learning_rate_min: 0.00000000000001
+    weight_decay: 0.0
+    optimizer: adam
+    adam_betas: [0.9, 0.98]
+
+
+    level: bpe
+    trg_voc_min_freq: 2
+    src_voc_min_freq: 2
+    trg_tag_enc: True
+    lowercase: False
+    max_sent_length: 120
+    share_vocab: True
+    reduce_size: None
+    vocab: /ivi/ilps/personal/dstap1/data/opus-100-corpus/v1.0/vocab/spm.txt
