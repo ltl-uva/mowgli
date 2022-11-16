@@ -1,7 +1,6 @@
 # YAML config options
 
 ## `data`
-TODO
 
 Name | Optional | Default | Description
 --------- | :----------: | :-- | --:
@@ -31,7 +30,15 @@ Name | Optional | Default | Description
 TODO
 
 ## `testing`
-TODO
+Name | Optional | Default | Description
+--------- | :----------: | :-- | --:
+`beam_size`|yes|1|beam size in beam search.
+`alpha`|yes|-1|length penalty for beam search (-1 for no penalty).
+`postprocess`|yes|`True`|whether to remove BPE splits
+`bpe_type`|yes|`subword-nmt`|bpe type (either `subword-nmt` or `sentencepiece`).
+`sacrebleu`:`remove_whitespace`|yes|`True`|`sacrebleu` option to remove whitespace.
+`sacrebleu`:`tokenize`|yes|`13a`|`sacrebleu` option for tokenization scheme.
+
 
 ## `model`
 TODO
