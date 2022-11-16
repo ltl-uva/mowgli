@@ -11,7 +11,7 @@ pip install --editable ./
 
 ## Getting started
 ### How to train a model
-* Before training, a vocabulary needs to be created. See `scripts/build_vocab.py` for details.
+* Before training, data needs to be pre-processed (e.g. using Moses) and a vocabulary needs to be created. See `scripts/build_vocab.py` for details on vocabulary creation.
 * Training is done by pointing to a `yaml` file: `python -m mowgli train configs/${YOUR_CONFIG}.yaml`
 
 ### How to do inference
