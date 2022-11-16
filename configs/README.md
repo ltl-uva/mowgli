@@ -8,12 +8,12 @@ Name | Optional | Default | Description
 `src`|no|NA|List of source languages for training.
 `trg`|no|NA|List of target languages for training.
 `valid_src`|yes|Same as `src`|List of source languages for validation. Useful for validating on a subset of languages.
-`valid_trg`|yes|Same as `trg`|List of target languages for validation.
-`test_src`|yes|Same as `src`|List of source languages for testing.
-`test_trg`|yes|Same as `trg`|List of target languages for testing.
-`train_path`|no|NA|test
-`valid_path`|no|NA|test
-`test_path`|no|NA|test
+`valid_trg`|yes|Same as `trg`|List of target languages for validation. Useful for validating on a subset of languages.
+`test_src`|yes|Same as `src`|List of source languages for testing. Useful for testing on a subset of languages.
+`test_trg`|yes|Same as `trg`|List of target languages for testing. Useful for testing on a subset of languages.
+`train_path`|no|NA|Path to training data folder plus prefix. For example, we can have two files: `data/train.en` and `data/train.de`. In this case `train_path` is `data/train`.
+`valid_path`|no|NA|Path to validation data folder plus prefix.
+`test_path`|no|NA|Path to test data folder plus prefix.
 `level`|no|NA|test
 `lowercase`|no|NA|test
 `max_sent_length`|no|NA|test
