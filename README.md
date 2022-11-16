@@ -10,7 +10,18 @@ pip install --editable ./
 ```
 
 ## Getting started
-TODO: add info about how to use framework.
+How to train a model:
+* Before training, a vocabulary needs to be created. See `scripts/build_vocab.py` for details.
+* Training is done by pointing to a `yaml` file: `python -m mowgli train configs/${YOUR_CONFIG}.yaml`
+
+How to do inference:
+* Inference is done by pointing to a `yaml` file: `python -m mowgli test configs/${YOUR_CONFIG}.yaml`
+
+TODO
+* Add all options for .yaml files
+* Add info about script that creates and starts slurm jobs
+* Make sure to run the code and iron out any small issues
+* Add info about (how to init) wandb
 
 ## Developers
 Mowgli is developed by [David Stap](https://davidstap.github.io) (University of Amsterdam).
