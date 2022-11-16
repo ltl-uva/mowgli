@@ -17,12 +17,5 @@ pip install --editable ./
 ### How to do inference
 * Inference is done by pointing to a `yaml` file: `python -m mowgli test configs/${YOUR_CONFIG}.yaml`
 
-TODO
-* Add example vocabulary training command
-* Add all options for .yaml files
-* Add info about script that creates and starts slurm jobs
-* Make sure to run the code and iron out any small issues
-* Add info about (how to init) wandb
-
 ## Developers
 Mowgli is developed by [David Stap](https://davidstap.github.io) (University of Amsterdam).
