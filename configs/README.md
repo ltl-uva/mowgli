@@ -3,14 +3,10 @@
 ## `data`
 TODO
 
-
-|Name|Optional|Default|Description|
-|`src`|no|NA|test|
-|`trg`|no|NA|test|
-
 Name | Optional | Default | Description
 --------- | :----------: | :-- | --:
-x|x|x|x
+`src`|no|NA|test
+`trg`|no|NA|test
 
 
 ## `training`
