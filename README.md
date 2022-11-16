@@ -17,6 +17,8 @@ pip install --editable ./
 ```
 
 ## Getting started
+Configuration is done through `yaml` files. See [configuration folder](https://github.com/ltl-uva/mowgli/tree/main/configs) for a list of all options.
+
 ### How to train a model (`mowgli train`)
 * Before training, data needs to be pre-processed (e.g. using Moses) and a vocabulary needs to be created. See `scripts/build_vocab.py` for details on vocabulary creation.
 * Training is done by pointing to a `yaml` file: `python -m mowgli train configs/${YOUR_CONFIG}.yaml`
