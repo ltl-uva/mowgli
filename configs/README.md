@@ -5,12 +5,12 @@ TODO
 
 Name | Optional | Default | Description
 --------- | :----------: | :-- | --:
-`src`|no|NA|test
-`trg`|no|NA|test
-`valid_src`|no|NA|test
-`valid_trg`|no|NA|test
-`test_src`|no|NA|test
-`test_trg`|no|NA|test
+`src`|no|NA|List of source languages for training.
+`trg`|no|NA|List of target languages for training.
+`valid_src`|yes|Same as `src`|List of source languages for validation.
+`valid_trg`|yes|Same as `trg`|List of target languages for validation.
+`test_src`|yes|Same as `src`|List of source languages for testing.
+`test_trg`|yes|Same as `trg`|List of target languages for testing.
 `train_path`|no|NA|test
 `valid_path`|no|NA|test
 `test_path`|no|NA|test
@@ -27,7 +27,7 @@ Name | Optional | Default | Description
 `multiparallel`|no|False|test
 `num_workers`|no|8|test
 
-
+centric
 
 
 ## `training`
