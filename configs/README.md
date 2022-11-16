@@ -4,17 +4,10 @@
 TODO
 
 
-* `src`
+|Name|Optional|Default|Description|
+|`src`|no|NA|test|
+|`trg`|no|NA|test|
 
-**Description:**
-**Optional:** Yes/No **Default:** NA
-
-* `trg`
-  * Description:
-  * Optional:
-  * Default:
-
-* 
 
 ## `training`
 TODO
