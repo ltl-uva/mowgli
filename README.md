@@ -4,8 +4,15 @@
 * Python version >= 3.8
 * To install mowgli and develop locally:
 ```bash
+# download code
 git clone git@github.com:ltl-uva/mowgli.git
 cd mowgli/
+
+# create a virtual environment, for example using conda
+conda create --name mowgli python==3.8
+conda activate mowgli
+
+# install
 pip install --editable ./ 
 ```
 
