@@ -12,5 +12,4 @@ pyyaml>=5.1
 pylint
 six==1.13
 wrapt==1.11.1
-fast_soft_sort
 wandb
