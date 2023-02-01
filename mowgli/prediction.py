@@ -126,15 +126,13 @@ def validate_on_data(
                             for i in range(len(decoder.layers))
                         ]
 
-            # sort batch now by src length and keep track of order
-            sort_reverse_index = batch.sort_by_src_length()
-
             # run as during inference to produce translations
             output, attention_scores = run_batch(model, batch, max_output_length, beam_size, beam_alpha)
 
             # sort outputs back to original order
-            all_outputs.extend(output[sort_reverse_index])
-            results["val_attn_scores"].extend(attention_scores[sort_reverse_index] if attention_scores is not None else [])
+            all_outputs.extend(output)
+            results["val_attn_scores"].extend(attention_scores if attention_scores is not None else [])
+
 
         model.set_src_trg_context_saving(saves_src_trg_context) # return to original state
         assert len(all_outputs) == len(data)
@@ -170,7 +168,7 @@ def validate_on_data(
             results["score"] = 0
             if eval_metric == "bleu":
                 results["score"] = sacrebleu.corpus_bleu(
-                    sys_stream=results["hyps"], ref_streams=[results["refs"]], tokenize=sacrebleu_opt["tokenize"]
+                    hypotheses=results["hyps"], references=[results["refs"]], tokenize=sacrebleu_opt["tokenize"]
                 ).score
 
             elif eval_metric.lower() == "chrf":
@@ -197,7 +195,7 @@ def parse_test_args(cfg, mode="test"):
     args["batch_size"] = cfg["training"].get("eval_batch_size", cfg["training"].get("batch_size", 1))
     args["batch_type"] = cfg["training"].get("eval_batch_type", cfg["training"].get("batch_type", "sentence"))
     args["use_cuda"] = cfg["training"].get("use_cuda", False) and torch.cuda.is_available()
-    args["eval_metric"] = cfg["training"]["eval_metric"]
+    args["eval_metric"] = cfg["training"].get("eval_metric", "bleu")
     args["level"] = cfg["data"]["level"]
     args["max_output_length"] = cfg["training"].get("max_output_length", None)
     args["n_gpu"] = torch.cuda.device_count() if args["use_cuda"] else 0

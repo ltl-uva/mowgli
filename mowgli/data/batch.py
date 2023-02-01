@@ -31,13 +31,3 @@ class Batch:
         """Move the parallel batch to `device` (CPU or GPU)."""
         self.src,self.src_mask,self.src_length = self.src.to(device),self.src_mask.to(device),self.src_length.to(device)
         self.trg,self.trg_mask,self.trg_input  = self.trg.to(device),self.trg_mask.to(device),self.trg_input.to(device)
-
-    def sort_by_src_length(self):
-        """Sort by source length (descending) and return index to revert sort."""
-        _, perm_index = self.src_length.sort(0, descending=True)
-        rev_index = [0]*perm_index.size(0)
-        for new_pos, old_pos in enumerate(perm_index.cpu().numpy()): rev_index[old_pos] = new_pos
-        self.src,self.src_length,self.src_mask = self.src[perm_index],self.src_length[perm_index],self.src_mask[perm_index]
-        self.trg,self.trg_length,self.trg_mask = self.trg[perm_index],self.trg_length[perm_index],self.trg_mask[perm_index]
-        self.trg_input = self.trg_input[perm_index]
-        return rev_index

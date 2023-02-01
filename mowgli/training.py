@@ -57,6 +57,7 @@ class TrainManager:
         if self.level not in ["word", "bpe", "char"]:
             raise ConfigurationError("invalid segmentation level. valid options: 'word', 'bpe', 'char'.")
         self.num_workers = cfg["data"].get("num_workers", 8)
+        self.pin_memory = cfg["data"].get("pin_memory", True)
         self.shuffle = cfg["training"].get("shuffle", True)
         self.sample_temp = cfg["training"].get("sample_temperature", 1)
         assert (self.sample_temp == 1 or len(cfg["data"]["src"]) > 1 or len(cfg["data"]["trg"]) > 1
@@ -119,6 +120,7 @@ class TrainManager:
                 SimilarityLoss(
                     self.pad_idx,
                     sim=cfg["training"].get("type_sim_loss"),
+                    norm=cfg["training"].get("norm_sim_loss"),
                     layers=cfg["training"].get("layers_sim_loss", list(range(cfg["model"]["decoder"]["num_layers"])))
                 )
             )
@@ -283,6 +285,7 @@ class TrainManager:
                         sample_temperature  = self.sample_temp,
                         distributed         = True if self.n_gpu > 1 else False,
                         num_workers         = self.num_workers,
+                        pin_memory          = self.pin_memory,
                     )
                     for data in train_data
                 ],
@@ -312,7 +315,7 @@ class TrainManager:
                 batch_loss += step_losses["norm_batch_loss"]
                 batch_crossent += step_losses["norm_crossent_loss"]
                 if step_losses["norm_sim_losses"] is not None:
-                    for l in range(len(step_losses["norm_sim_losses"])):
+                    for l in step_losses["norm_sim_losses"].keys():
                         batch_similarity[l] += step_losses["norm_sim_losses"][l]
 
                 # Do update step
@@ -510,33 +513,38 @@ class TrainManager:
                 shared_idxs = set(cross_attn1.keys()).intersection(set(cross_attn2.keys()))
 
                 # Get similarity loss for all sentences
-                for idx in shared_idxs:
-                    total_tokens += cross_attn1[idx][0].shape[0]
-                    sim_fn = self.model.module.similarity_loss_function if self.n_gpu > 1 and self.use_cuda else self.model.similarity_loss_function
-
-                    cross_attn_sims.append(
-                        sim_fn(
-                            [c.unsqueeze(0) for c in cross_attn1[idx]],
-                            [c.unsqueeze(0) for c in cross_attn2[idx]],
-                            src1,
-                            src2,
+                if self.optimize_similarity_loss:
+                    for idx in shared_idxs:
+                        total_tokens += cross_attn1[idx][0].shape[0]
+                        sim_fn = (
+                            self.model.module.similarity_loss_function
+                            if self.n_gpu > 1 and self.use_cuda
+                            else self.model.similarity_loss_function
                         )
-                    )
 
-                # Sum all losses together, normalize by number of sentences
-                sim_losses_sum = dict(functools.reduce(operator.add, map(Counter, cross_attn_sims)))
-                sim_losses_sum = {l: sim.item() / len(sim_losses_sum) for l, sim in sim_losses_sum.items()}
+                        cross_attn_sims.append(
+                            sim_fn(
+                                x1      = [c.unsqueeze(0) for c in cross_attn1[idx]],
+                                x2      = [c.unsqueeze(0) for c in cross_attn2[idx]],
+                                lang1   = src1,
+                                lang2   = src2,
+                            )
+                        )
 
-                # Normalize
-                sim_losses_norm = {l: sim / total_tokens for l, sim in sim_losses_sum.items()}
+                    # Sum all losses together, normalize by number of sentences
+                    sim_losses_sum = dict(functools.reduce(operator.add, map(Counter, cross_attn_sims)))
+                    sim_losses_sum = {l: sim.item() / len(sim_losses_sum) for l, sim in sim_losses_sum.items()}
 
-                logging_valid_sim = {
-                    **{f"{src1}-{src2} similarity loss (sum) layer {l}":        sim for l, sim in sim_losses_sum.items()},
-                    **{f"{src1}-{src2} similarity loss (normalized) layer {l}": sim for l, sim in sim_losses_norm.items()},
-                    "update step":                                              self.stats.steps,
-                    "epoch":                                                    self.epoch_no,
-                }
-                self._log(logging_valid_sim)
+                    # Normalize
+                    sim_losses_norm = {l: sim / total_tokens for l, sim in sim_losses_sum.items()}
+
+                    logging_valid_sim = {
+                        **{f"{src1}-{src2} similarity loss (sum) layer {l}":        sim for l, sim in sim_losses_sum.items()},
+                        **{f"{src1}-{src2} similarity loss (normalized) layer {l}": sim for l, sim in sim_losses_norm.items()},
+                        "update step":                                              self.stats.steps,
+                        "epoch":                                                    self.epoch_no,
+                    }
+                    self._log(logging_valid_sim)
 
         # use mean values to report and determine determine early stopping
         valid_loss  = np.mean(np.array(valid_losses))

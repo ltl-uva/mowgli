@@ -98,11 +98,11 @@ class MowgliModel(nn.Module):
         sim_loss = None
         if self.similarity_loss_function:
             sim_loss = self.similarity_loss_function(
-                cross_attns1    = cross_attns[0],
-                cross_attns2    = cross_attns[1],
-                src1_lang       = src_langs[0],
-                src2_lang       = src_langs[1],
-                mask            = batch.trg.eq(self.pad_idx),
+                x1      = cross_attns[0],
+                x2      = cross_attns[1],
+                lang1   = src_langs[0],
+                lang2   = src_langs[1],
+                mask    = batch.trg.eq(self.pad_idx),
             )
 
         return {"crossent": crossent_loss, "similarity": sim_loss}
