@@ -126,6 +126,11 @@ class MowgliConcatDataset(torch.utils.data.ConcatDataset):
         self.type = datasets[0].type
         self.total_tokens = sum([d.total_tokens for d in datasets])
 
+        # Store graph
+        # Assume graph is always the same (for different language combinations)
+        assert len(set([d.graph for d in datasets])) == 1
+        self.graph = datasets[0].graph
+
 
     def get_only_stats(self, idx):
         if idx < 0:

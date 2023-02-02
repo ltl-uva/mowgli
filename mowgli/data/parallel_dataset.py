@@ -59,6 +59,11 @@ class ParallelDataset(MowgliDataset):
                         raw_sources.append(src_sent)
                         raw_targets.append(trg_sent)
 
+        # DS: this is where the graph will be created, so that it's part of the dataset object.
+        # Since this object is passed to `build_iterator()`, the function that handles building
+        # the iterator, it is easy to include it in batches.
+        self.graph = None
+
         # Store info for evaluation (only relevant for dev and test)
         if not "train" in path:
             self.src_lang = src

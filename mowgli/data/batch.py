@@ -11,9 +11,11 @@ class Batch:
         pad,        # pad index
         src_lang,
         trg_lang,
+        graph,
         idxs=None   #
     ):
         self.type = "parallel"
+        self.graph = graph
         self.src_lang = src_lang
         self.trg_lang = trg_lang
         self.idxs = idxs

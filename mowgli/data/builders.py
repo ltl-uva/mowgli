@@ -239,7 +239,9 @@ def build_iterator(
             pad         = pad_idx,
             idxs        = [x["idx"] for x in batch],
             src_lang    = batch[0]["src_lang"],
-            trg_lang    = batch[0]["trg_lang"]
+            trg_lang    = batch[0]["trg_lang"],
+            # DS: include graph in batch. (This is a bit hacky but good enough for now.)
+            graph       = dataset.graph,
         )
 
     def multiparallel_collator(batch):
