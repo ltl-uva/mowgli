@@ -1,4 +1,5 @@
 # Mowgli
+Mowgli is a lightweight neural machine translation framework based on the Transformer network.
 
 ## Installation
 * Python version >= 3.8
@@ -30,3 +31,23 @@ Configuration is done through `yaml` files. See [configuration folder](https://g
 Mowgli is developed by [David Stap](https://davidstap.github.io) (University of Amsterdam).
 
 We take inspiration from other sequence-to-sequence frameworks such as [Tensor2Tensor](https://github.com/tensorflow/tensor2tensor), [fairseq](https://github.com/facebookresearch/fairseq), [OpenNMT](https://github.com/OpenNMT/OpenNMT-py) and [JoeyNMT](https://github.com/joeynmt/joeynmt).
+
+## Reference
+If you use mowgli, please cite the following [paper]([https://arxiv.org/abs/1907.12484](https://aclanthology.org/2023.findings-emnlp.998/)):
+
+```
+@inproceedings{stap-etal-2023-viewing,
+    title = "Viewing Knowledge Transfer in Multilingual Machine Translation Through a Representational Lens",
+    author = "Stap, David  and
+      Niculae, Vlad  and
+      Monz, Christof",
+    booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2023",
+    month = dec,
+    year = "2023",
+    address = "Singapore",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.findings-emnlp.998",
+    pages = "14973--14987",
+}
+```
+
